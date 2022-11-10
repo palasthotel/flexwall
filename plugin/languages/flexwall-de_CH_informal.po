@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FlexWall\n"
+"POT-Creation-Date: 2018-07-18 15:33+0200\n"
+"PO-Revision-Date: 2018-07-18 15:34+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: plugin.php\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#. Plugin Name of the plugin/theme
+#: classes/meta-box.php:28
+msgid "FlexWall"
+msgstr ""
+
+#: classes/meta-box.php:42
+msgid "Deactivate"
+msgstr "Deaktivieren"
+
+#: classes/settings.php:81
+msgid "Min. words for content protection"
+msgstr "Min. Wörter für Inhaltsschutz"
+
+#: classes/settings.php:99
+msgid "Empty or less than 1 word means no protection."
+msgstr "Leerer Wert oder kleiner als 1 bedeutet, dass es keinen Schutz gibt."
+
+#. Description of the plugin/theme
+msgid ""
+"Flexible content protection that is highly customizable and can be "
+"integrated in hopefully every process. Can be used as paywall or whatever "
+"wall you need."
+msgstr ""
+"Flexibler Schutz für deine Inhalte. Kann z.B. als PayWall eingesetzt werden."
+
+#. Author of the plugin/theme
+msgid "PALASTHOTEL (by Edward Bock)"
+msgstr "PALASTHOTEL (von Edward Bock)"
+
+#. Author URI of the plugin/theme
+msgid "https://palasthotel.de"
+msgstr ""
