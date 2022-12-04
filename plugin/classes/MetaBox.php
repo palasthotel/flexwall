@@ -21,7 +21,9 @@ class MetaBox extends Component{
 	/**
 	 *  register meta box
 	 */
-	public function add_meta_box() {
+	public function add_meta_box( $post ) {
+        if ( $this->plugin->post->hasBlocks($post) ) return;
+
 		add_meta_box(
 			Plugin::DOMAIN . '-meta-box',
 			__( 'FlexWall', Plugin::DOMAIN ),
@@ -31,44 +33,43 @@ class MetaBox extends Component{
 	}
 
 	public function render_disabler( $post ) {
+        if ( $this->plugin->post->hasBlocks($post) ) return;
+
 		$checked = "";
 		if ( $this->plugin->post->isProtectionDeactivated( $post->ID ) ) {
 			$checked = "checked='checked'";
 		}
 		echo '<div class="misc-pub-section">';
 		echo "<label>";
-		echo "<input type='checkbox' name='flexwall_deactivated' $checked value='turn-it-off' /> " . __( 'Disable FlexWall', Plugin::DOMAIN );
+		echo "<input type='checkbox' name='flexwall_deactivated_disabler' $checked value='turn-it-off' /> " . __( 'Disable FlexWall', Plugin::DOMAIN );
 		echo "</label>";
 		echo '</div>';
 
 	}
 
 	public function render( $post ) {
+        if ( $this->plugin->post->hasBlocks($post) ) return;
+
 		$checked = "";
 		if ( $this->plugin->post->isProtectionDeactivated( $post->ID ) ) {
 			$checked = "checked='checked'";
 		}
 		echo "<label>";
-		echo "<input type='checkbox' name='flexwall_deactivated' $checked value='turn-it-off' /> " . __( 'Deactivate', Plugin::DOMAIN );
+		echo "<input type='checkbox' name='flexwall_deactivated_metabox' $checked value='turn-it-off' /> " . __( 'Deactivate', Plugin::DOMAIN );
 		echo "</label>";
 
 		do_action( Plugin::ACTION_ADD_POST_META_SETTINGS, $post );
 	}
 
 	public function save( $post_id, $post ) {
+        if ( $this->plugin->post->hasBlocks($post) ) return;
 
-		if ( isset( $_POST["flexwall_deactivated"] ) ) {
-			$value = $_POST["flexwall_deactivated"];
-			$this->plugin->post->setProtectionDeactivated(
-				$post->ID,
-				isset( $_POST["flexwall_deactivated"] ) && $_POST["flexwall_deactivated"] == "turn-it-off"
-			);
-		} else {
-			$this->plugin->post->setProtectionDeactivated(
-				$post->ID,
-				false
-			);
-		}
+        $valueDisabler = isset( $_POST["flexwall_deactivated_disabler"] ) && $_POST["flexwall_deactivated_disabler"] == "turn-it-off";
+        $valueMetabox = isset( $_POST["flexwall_deactivated_metabox"] ) && $_POST["flexwall_deactivated_metabox"] == "turn-it-off";
 
+        $this->plugin->post->setProtectionDeactivated(
+            $post->ID,
+            ( $valueDisabler != $valueMetabox ) ? !$this->plugin->post->isProtectionDeactivated( $post->ID ) : ( $valueDisabler && $valueMetabox )
+        );
 	}
 }

@@ -36,4 +36,24 @@ class Post extends Component {
 		}
 	}
 
+    /**
+     * check if block editor is active
+     * @param $post
+     * @return bool
+     */
+    public function hasBlocks($post) {
+        if(!is_object($post) || !isset($post->ID)) return false;
+        return ( false !== strpos( (string) $post->post_content, '<!-- wp:' ) ) && ( get_post_meta($post->ID, 'classic-editor-remember', true) !== 'classic-editor' );
+    }
+
+    /**
+     * check if post has a flexwall-break block
+     * @param $post
+     * @return bool
+     */
+    public function hasBlockFlexwallBreak($post) {
+        if(!is_object($post) || !isset($post->ID)) false;
+        return ( false !== strpos( (string) $post->post_content, Plugin::CONSTANT_FLEXWALL_BREAK_IDENTIFIER ) );
+    }
+
 }
