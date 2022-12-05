@@ -36,8 +36,8 @@ class FrontendProtection extends Component{
 			return true;
 		}
 		if(!is_object($post) || !isset($post->ID)) return false;
-		return ! $this->plugin->post->isProtectionDeactivated( $post->ID )
-		       && str_word_count( strip_tags( $post->post_content ) ) >= $this->plugin->settings->getMinWordsCount();
+		return ( !$this->plugin->post->hasBlocks($post) && !$this->plugin->post->isProtectionDeactivated( $post->ID ) && str_word_count( strip_tags( $post->post_content ) ) >= $this->plugin->settings->getMinWordsCount() )
+            || ( $this->plugin->post->hasBlocks($post) && $this->plugin->post->hasBlockFlexwallBreak($post) );
 	}
 
 	/**
@@ -133,7 +133,7 @@ class FrontendProtection extends Component{
 		$wall = ob_get_contents();
 		ob_end_clean();
 
-		return $this->shorten_content( $content, $this->plugin->settings->getMinWordsCount() ) . $wall;
+		return $this->shorten_content( $content, $this->plugin->post->hasBlocks( get_post() ), $this->plugin->settings->getMinWordsCount() ) . $wall;
 	}
 
 	/**
@@ -144,9 +144,14 @@ class FrontendProtection extends Component{
 	 *
 	 * @return string
 	 */
-	private function shorten_content( $content, $words ) {
-		// Source: https://core.trac.wordpress.org/ticket/29533#comment:3
-		return force_balance_tags( html_entity_decode( wp_trim_words( htmlentities( $content ), $words ) ) );
+	private function shorten_content( $content, $hasBlocks, $words ) {
+        if ( $hasBlocks ) {
+            $breakPos = strpos( $content, Plugin::CONSTANT_FLEXWALL_BREAK_IDENTIFIER );
+            return substr( $content, 0, $breakPos );
+        } else {
+            // Source: https://core.trac.wordpress.org/ticket/29533#comment:3
+            return force_balance_tags( html_entity_decode( wp_trim_words( htmlentities( $content ), $words ) ) );
+        }
 	}
 
 }

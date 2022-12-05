@@ -23,6 +23,7 @@ require_once __DIR__."/vendor/autoload.php";
  * @property Post $post
  * @property Settings $settings
  * @property MetaBox $meta_box
+ * @property GutenbergBlock $gutenberg_block
  * @property FrontendProtection $frontend_protection
  * @property Render $render
  * @property Login $login
@@ -78,6 +79,11 @@ class Plugin extends Components\Plugin {
 	const THEME_FOLDER = "plugin-parts";
 	const TEMPLATE_WALL = "flexwall.php";
 
+    /**
+     * constatns
+     */
+    const CONSTANT_FLEXWALL_BREAK_IDENTIFIER = "<flexwall-break></flexwall-break>";
+
 	/**
 	 * create plugin
 	 * @return void
@@ -89,6 +95,7 @@ class Plugin extends Components\Plugin {
 		$this->post = new Post($this);
 		$this->settings = new Settings($this);
 		$this->meta_box = new MetaBox($this);
+        $this->gutenberg_block = new GutenbergBlock($this);
 		$this->frontend_protection = new FrontendProtection($this);
 		$this->render = new Render($this);
 		$this->login = new Login($this);
