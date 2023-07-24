@@ -1,0 +1,40 @@
+version: '3.3'
+
+services:
+
+  wordpress:
+    image: wordpress:apache
+    container_name: flexwall_wp
+    restart: unless-stopped
+    environment:
+      - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_NAME=wordpress
+      - WORDPRESS_DB_USER=root
+      - WORDPRESS_DB_PASSWORD=wordpress
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www/html/wp-content/plugins/flexwall
+      - ./theme:/var/www/html/wp-content/themes/simple
+    networks:
+      - wordpress
+
+  mariadb:
+    image: mariadb:latest
+    container_name: flexwall_mdb
+    restart: unless-stopped
+    environment:
+      - MARIADB_ROOT_PASSWORD=wordpress
+      - MARIADB_DATABASE=wordpress
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - wordpress
+
+volumes:
+  mariadb:
+
+networks:
+  wordpress:
